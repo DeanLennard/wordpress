@@ -1,15 +1,35 @@
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/app', '.' ]
-  # Push the container image to Container Registry
+    args: 
+      - 'build'
+      - '-t'
+      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+      - '.'
+
+  # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/${PROJECT_ID}/app']
+    args: 
+      - 'push'
+      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'app', '--image', 'gcr.io/${PROJECT_ID}/app', '--region', 'eu-west2']
+    args:
+      - 'run'
+      - 'deploy'
+      - 'app'
+      - '--image'
+      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+      - '--region'
+      - 'eu-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
 images:
-  - gcr.io/${PROJECT_ID}/app
+  - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+
 options:
-    defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
