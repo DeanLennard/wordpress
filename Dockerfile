@@ -18,11 +18,13 @@
 # use the offical wordpres image as the base
 FROM wordpress:latest
 
+COPY ./html /var/www/html
+
 # copy custom config files
 #COPY my-custom-config.php /var/www/html/wp-config.php
 
 # set permissions
-#RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
 # expose thje default wordpress port
 EXPOSE 80
