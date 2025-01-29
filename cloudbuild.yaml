@@ -1,5 +1,15 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'eu-west2-docker.pkg.dev/${PROJECT_ID}/app', '.' ]
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'eu-west2-docker.pkg.dev/${PROJECT_ID}/app', '.' ]
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/app']
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'app', '--image', 'gcr.io/${PROJECT_ID}/app', '--region', 'eu-west2']
+images:
+  - gcr.io/${PROJECT_ID}/app
 options:
-  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+    defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
