@@ -1,9 +1,9 @@
 steps:
   # Authenticate Docker with Artifact Registry
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: cmd
+    entrypoint: bash
     args:
-      - '/c'
+      - '-c'
       - 'gcloud auth configure-docker eu-west2-docker.pkg.dev'
 
   # Build the container image
