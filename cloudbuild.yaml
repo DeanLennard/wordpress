@@ -1,19 +1,26 @@
 steps:
+  # Authenticate Docker with Artifact Registry
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: cmd
+    args:
+      - '/c'
+      - 'gcloud auth configure-docker eu-west2-docker.pkg.dev'
+
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'build'
       - '-t'
-      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
       - '.'
 
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'push'
-      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
 
-  # Deploy container image to Cloud Run
+  # Deploy the container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -21,7 +28,7 @@ steps:
       - 'deploy'
       - 'app'
       - '--image'
-      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
       - '--region'
       - 'eu-west2'
       - '--platform'
@@ -29,7 +36,7 @@ steps:
       - '--allow-unauthenticated'
 
 images:
-  - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread-repo/app'
+  - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
