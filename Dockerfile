@@ -22,7 +22,7 @@ FROM wordpress:latest
 #COPY my-custom-config.php /var/www/html/wp-config.php
 
 # set permissions
-RUN chown -R www-data:www-data /var/www/html
+#RUN chown -R www-data:www-data /var/www/html
 
 # expose thje default wordpress port
 EXPOSE 80
