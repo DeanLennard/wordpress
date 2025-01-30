@@ -15,7 +15,7 @@ steps:
     entrypoint: 'gcloud'
     timeout: 240s
     args: ['compute', 'instances', 
-           'create-with-container', 'my-vm-name',
+           'create-with-container', 'artisan-thread-vm',
            '--container-image', 
            'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
     env:
