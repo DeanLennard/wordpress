@@ -120,10 +120,10 @@ define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 /**
  * configure HTTPS
  */
-define('FORCE_SSL_ADMIN', true);
-define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
-$_SERVER['HTTPS'] = 'on';
-$_SERVER['SERVER_PORT'] = 443;
+//define('FORCE_SSL_ADMIN', true);
+//define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
+//$_SERVER['HTTPS'] = 'on';
+//$_SERVER['SERVER_PORT'] = 443;
 
 // If we're behind a proxy server and using HTTPS, we need to alert WordPress of that fact
 // see also https://wordpress.org/support/article/administration-over-ssl/#using-a-reverse-proxy
