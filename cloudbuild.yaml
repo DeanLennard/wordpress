@@ -10,6 +10,16 @@ steps:
     args: ['push', 
            'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+         - 'compute'
+         - 'instances'
+         - 'delete'
+         - 'artisan-thread-vm'
+         - '--zone=europe-west2-a'
+         - '--quiet'
+    ignore_exit_status: true  # In case the instance doesn't exist, it will ignore the error
+
   # Entrypoint, timeout and environment variables
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
