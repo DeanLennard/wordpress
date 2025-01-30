@@ -16,41 +16,41 @@
 #COPY ./app /var/www/html
 
 # use the offical wordpres image as the base
-#FROM wordpress:latest
+FROM wordpress:latest
 
 #RUN git clone RUN git clone https://github.com/DeanLennard/wordpress.git
 
-#COPY ./html /var/www/html
+COPY ./html /var/www/html
 
 # copy custom config files
 #COPY my-custom-config.php /var/www/html/wp-config.php
 
 # set permissions
-#RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
 # expose thje default wordpress port
-#EXPOSE 80
+EXPOSE 80
 
 # start wordpress
-#CMD ["apache2-foreground"]
+CMD ["apache2-foreground"]
 
-FROM wordpress:latest
+#FROM wordpress:latest
 
-COPY ./html /var/www/html
+#COPY ./html /var/www/html
 
-EXPOSE 80
+#EXPOSE 80
 # Use the PORT environment variable in Apache configuration files.
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+#RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 # wordpress conf
-COPY ./html/wp-config.php /var/www/html/wp-config.php
+#COPY ./html/wp-config.php /var/www/html/wp-config.php
 
 # download and install cloud_sql_proxy
-RUN apt-get update && apt-get install net-tools wget && \
-    wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /usr/local/bin/cloud_sql_proxy && \ 
-    chmod +x /usr/local/bin/cloud_sql_proxy
+#RUN apt-get update && apt-get install net-tools wget && \
+#    wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /usr/local/bin/cloud_sql_proxy && \ 
+#    chmod +x /usr/local/bin/cloud_sql_proxy
 
 # custom entrypoint
-COPY ./cloud-run-entrypoint.sh /usr/local/bin/
+#COPY ./cloud-run-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["cloud-run-entrypoint.sh","docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
+#ENTRYPOINT ["cloud-run-entrypoint.sh","docker-entrypoint.sh"]
+#CMD ["apache2-foreground"]
