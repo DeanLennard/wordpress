@@ -50,7 +50,7 @@ RUN apt-get update && apt-get install net-tools wget && \
     chmod +x /usr/local/bin/cloud_sql_proxy
 
 # custom entrypoint
-COPY html/cloud-run-entrypoint.sh /usr/local/bin/
+COPY ./cloud-run-entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["cloud-run-entrypoint.sh","docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
