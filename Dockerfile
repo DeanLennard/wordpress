@@ -36,11 +36,13 @@
 
 FROM wordpress:latest
 
+COPY ./html /var/www/html
+
 EXPOSE 80
 # Use the PORT environment variable in Apache configuration files.
 RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 # wordpress conf
-COPY wordpress/wp-config.php /var/www/html/wp-config.php
+COPY ./html/wp-config.php /var/www/html/wp-config.php
 
 # download and install cloud_sql_proxy
 RUN apt-get update && apt-get install net-tools wget && \
