@@ -2,13 +2,13 @@ steps:
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 
-           'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app', 
+           'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app',
            '.']
 
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 
-           'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
+           'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
 
   # Entrypoint, timeout and environment variables
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -17,7 +17,7 @@ steps:
     args: ['compute', 'instances', 
            'create-with-container', 'my-vm-name',
            '--container-image', 
-           'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
+           'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
     env:
       - 'CLOUDSDK_COMPUTE_REGION=eu-west2'
       - 'CLOUDSDK_COMPUTE_ZONE=eu-west2-a'
