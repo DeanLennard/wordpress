@@ -19,8 +19,8 @@ steps:
            '--container-image', 
            'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
     env:
-      - 'CLOUDSDK_COMPUTE_REGION=eu-west2'
-      - 'CLOUDSDK_COMPUTE_ZONE=eu-west2-a'
+      - 'CLOUDSDK_COMPUTE_REGION=europe-west2'
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
