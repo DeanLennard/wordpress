@@ -34,7 +34,7 @@
 # start wordpress
 #CMD ["apache2-foreground"]
 
-FROM wordpress:latest-apache
+FROM wordpress:latest
 
 EXPOSE 80
 # Use the PORT environment variable in Apache configuration files.
