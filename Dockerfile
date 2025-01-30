@@ -18,8 +18,7 @@
 # use the offical wordpres image as the base
 #FROM wordpress:latest
 
-RUN git clone ssh://git@github.com:DeanLennard/wordpress.git // fails
-
+RUN git clone RUN git clone https://github.com/DeanLennard/wordpress.git
 
 COPY ./html /var/www/html
 
