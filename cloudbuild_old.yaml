@@ -1,0 +1,80 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 
+           'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app',
+           '.']
+
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 
+           'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+         - 'compute'
+         - 'instances'
+         - 'delete'
+         - 'artisan-thread-vm'
+         - '--zone=europe-west2-a'
+         - '--quiet'
+
+  # Entrypoint, timeout and environment variables
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    timeout: 240s
+    args: ['compute', 'instances', 
+           'create-with-container', 'artisan-thread-vm',
+           '--container-image', 
+           'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app']
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=europe-west2'
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
+#steps:
+  # Authenticate Docker with Artifact Registry
+#  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#    entrypoint: bash
+#    args:
+#      - '-c'
+#      - 'gcloud auth configure-docker eu-west2-docker.pkg.dev'
+
+  # Build the container image
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args:
+#      - 'build'
+#      - '-t'
+#      - 'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
+#      - '-f'
+#      - 'Dockerfile'  # or 'docker/Dockerfile' if it's inside a folder
+#      - '.'
+
+  # Push the container image to Artifact Registry
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args:
+#      - 'push'
+#      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
+
+  # Deploy the container image to Cloud Run
+#  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#    entrypoint: gcloud
+#    args:
+#      - 'run'
+#      - 'deploy'
+#      - 'app'
+#      - '--image'
+#      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
+#      - '--region'
+#      - 'eu-west2'
+#      - '--platform'
+#      - 'managed'
+#      - '--allow-unauthenticated'
+
+#images:
+#  - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
+
+#options:
+#  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
