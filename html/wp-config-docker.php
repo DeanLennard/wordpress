@@ -25,18 +25,18 @@
 
 // a helper function to lookup "env_FILE", "env", then fallback
 if (!function_exists('getenv_docker')) {
-	// https://github.com/docker-library/wordpress/issues/588 (WP-CLI will load this file 2x)
-	function getenv_docker($env, $default) {
-		if ($fileEnv = getenv($env . '_FILE')) {
-			return rtrim(file_get_contents($fileEnv), "\r\n");
-		}
-		else if (($val = getenv($env)) !== false) {
-			return $val;
-		}
-		else {
-			return $default;
-		}
-	}
+    // https://github.com/docker-library/wordpress/issues/588 (WP-CLI will load this file 2x)
+    function getenv_docker($env, $default) {
+        if ($fileEnv = getenv($env . '_FILE')) {
+            return rtrim(file_get_contents($fileEnv), "\r\n");
+        }
+        else if (($val = getenv($env)) !== false) {
+            return $val;
+        }
+        else {
+            return $default;
+        }
+    }
 }
 
 // ** Database settings - You can get this info from your web host ** //
@@ -117,22 +117,30 @@ define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+/**
+ * configure HTTPS
+ */
+define('FORCE_SSL_ADMIN', true);
+define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
+$_SERVER['HTTPS'] = 'on';
+$_SERVER['SERVER_PORT'] = 443;
+
 // If we're behind a proxy server and using HTTPS, we need to alert WordPress of that fact
 // see also https://wordpress.org/support/article/administration-over-ssl/#using-a-reverse-proxy
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
-	$_SERVER['HTTPS'] = 'on';
+    $_SERVER['HTTPS'] = 'on';
 }
 // (we include this by default because reverse proxying is extremely common in container environments)
 
 if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
-	eval($configExtra);
+    eval($configExtra);
 }
 
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+    define( 'ABSPATH', __DIR__ . '/' );
 }
 
 /** Sets up WordPress vars and included files. */

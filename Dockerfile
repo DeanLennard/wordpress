@@ -16,7 +16,10 @@
 #COPY ./app /var/www/html
 
 # use the offical wordpres image as the base
-FROM wordpress:latest
+#FROM wordpress:latest
+
+RUN git clone ssh://git@github.com:DeanLennard/wordpress.git // fails
+
 
 COPY ./html /var/www/html
 
