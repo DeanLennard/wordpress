@@ -11,7 +11,9 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'eu-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
+      - 'europe-west2-docker.pkg.dev/${PROJECT_ID}/artisan-thread/app'
+      - '-f'
+      - 'Dockerfile'  # or 'docker/Dockerfile' if it's inside a folder
       - '.'
 
   # Push the container image to Artifact Registry
